@@ -1,18 +1,37 @@
-from django.views import generic
-
+from django.views.generic import ListView, DetailView
+from django.db.models import Q
 from .models import Article
 
 
-class IndexView(generic.ListView):
+class IndexView(ListView):
+    model = Article
     template_name = "orthowiki/index.html"
-    context_object_name = "latest_articles_list"
+    context_object_name = "articles_list"
+    ordering = ['-pub_date']
 
     def get_queryset(self):
-        """Return the last five published articles."""
-        return Article.objects.order_by("-pub_date")[:5]
+        # Start with the base queryset (e.g., all articles ordered by latest)
+        queryset = super().get_queryset()
+        
+        # Get the search query from the URL GET parameters
+        self.query = self.request.GET.get('q', '')
+        
+        if self.query:
+            # Filter the queryset if a query exists
+            queryset = queryset.filter(
+                Q(title__icontains=self.query) | Q(content__icontains=self.query)
+            )
+            
+        return queryset[:5]
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Pass the query to the template so the input box stays populated
+        context['query'] = self.request.GET.get('q', '')
+        return context
 
 
-class ArticleView(generic.DetailView):
+class ArticleView(DetailView):
     model = Article
     template_name = "orthowiki/article.html"
 

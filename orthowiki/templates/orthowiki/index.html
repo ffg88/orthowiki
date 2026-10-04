@@ -1,14 +1,33 @@
 {% load static %}
-
 <link rel="stylesheet" href="{% static 'orthowiki/style.css' %}">
 
-{% if latest_articles_list %}
-    <p>Latest articles:</p>
-    <ul>
-    {% for article in latest_articles_list %}
-        <li><a href="{% url 'orthowiki:article' article.id %}">{{ article.title }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No articles are available.</p>
-{% endif %}
+<!-- Search Form -->
+    <form method="GET" action="{% url 'orthowiki:index' %}">
+        <input type="text" name="q" value="{{ query }}" placeholder="Search articles...">
+        <button type="submit">Search</button>
+        {% if query %}
+            <a href="{% url 'orthowiki:index' %}">Clear Search</a>
+        {% endif %}
+    </form>
+
+<!-- Dynamic Heading -->
+    {% if query %}
+        <h2>Search Results for "{{ query }}"</h2>
+    {% else %}
+        <h2>Latest Articles</h2>
+    {% endif %}
+
+<!-- Article List -->
+    {% if articles_list %}
+        <ul>
+        {% for article in articles_list %}
+            <li>
+                <a href="{% url 'orthowiki:article' article.id %}">{{ article.title }}</a>
+                <p>{{ article.content|truncatewords:30 }}</p>
+                <small>Published on: {{ article.pub_date }}</small>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No articles are available at the moment.</p>
+    {% endif %}
