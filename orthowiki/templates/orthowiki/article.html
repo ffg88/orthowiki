@@ -1,0 +1,8 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'orthowiki/style.css' %}">
+
+<h1>{{ article.title}} </h1>
+<p>Published on: {{ article.pub_date }}</p>
+<br>
+{{ article.content }}

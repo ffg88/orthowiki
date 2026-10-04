@@ -1,0 +1,14 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'orthowiki/style.css' %}">
+
+{% if latest_articles_list %}
+    <p>Latest articles:</p>
+    <ul>
+    {% for article in latest_articles_list %}
+        <li><a href="{% url 'orthowiki:article' article.id %}">{{ article.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No articles are available.</p>
+{% endif %}
