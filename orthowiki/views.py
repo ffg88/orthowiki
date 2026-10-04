@@ -7,14 +7,14 @@ class IndexView(ListView):
     model = Article
     template_name = "orthowiki/index.html"
     context_object_name = "articles_list"
-    ordering = ['-pub_date']
+    ordering = ["-pub_date"]
 
     def get_queryset(self):
         # Start with the base queryset (e.g., all articles ordered by latest)
         queryset = super().get_queryset()
         
         # Get the search query from the URL GET parameters
-        self.query = self.request.GET.get('q', '')
+        self.query = self.request.GET.get("q", "")
         
         if self.query:
             # Filter the queryset if a query exists
@@ -27,7 +27,7 @@ class IndexView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Pass the query to the template so the input box stays populated
-        context['query'] = self.request.GET.get('q', '')
+        context["query"] = self.request.GET.get("q", "")
         return context
 
 
