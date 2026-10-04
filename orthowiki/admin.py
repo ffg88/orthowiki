@@ -3,10 +3,9 @@ from .models import Article
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    fields = ["title", "content"]
-    list_display = ["title", "pub_date"]
-    list_filter = ["pub_date"]
-    search_fields = ["content"]
+    list_display = ["title", "pub_date", "mod_date"]
+    list_filter = ["pub_date", "mod_date"]
+    search_fields = ["content", "title"]
 
 
 admin.site.register(Article, ArticleAdmin)

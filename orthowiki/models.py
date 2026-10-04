@@ -6,7 +6,9 @@ class Article(models.Model):
     title = models.CharField(max_length=150, unique=True)
     slug = models.SlugField(unique=True, blank=True)
     content = models.TextField()
-    pub_date = models.DateTimeField(auto_now_add=True, verbose_name="date published")
+    pub_date = models.DateTimeField(verbose_name="date published")
+    mod_date = models.DateTimeField(verbose_name="last modified", blank=True, null=True)
+    file_hash = models.CharField(max_length=32, unique=True, blank=True, null=True)
 
     def save(self, *args, **kwargs):
             if not self.slug:

@@ -1,8 +1,12 @@
 {% load static %}
-
 <link rel="stylesheet" href="{% static 'orthowiki/style.css' %}">
 
 <h1>{{ article.title}} </h1>
-<p>Published on: {{ article.pub_date }}</p>
+<small>
+    Published on: {{ article.pub_date }}
+    {% if article.mod_date %}
+        | Modified on: {{ article.mod_date }}
+    {% endif %}
+</small>
 <br>
-{{ article.content }}
+{{ article.content|safe }}
