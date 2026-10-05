@@ -3,12 +3,13 @@ from django.utils.text import slugify
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=150, unique=True)
-    slug = models.SlugField(unique=True, blank=True)
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True)
+    language = models.CharField(max_length=10, default="en")
     content = models.TextField()
     pub_date = models.DateTimeField(verbose_name="date published")
     mod_date = models.DateTimeField(verbose_name="last modified", blank=True, null=True)
-    file_hash = models.CharField(max_length=32, unique=True, blank=True, null=True)
+    file_hash = models.CharField(max_length=32, unique=True)
 
     def save(self, *args, **kwargs):
             if not self.slug:

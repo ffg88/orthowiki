@@ -1,33 +1,50 @@
-import os, datetime, markdown, hashlib
-from zoneinfo import ZoneInfo
+import os, markdown, hashlib, frontmatter
 from django.core.management.base import BaseCommand
+from django.utils.text import slugify
+from django.utils import timezone
 from orthowiki.models import Article
 
 class Command(BaseCommand):
-    help = 'Imports markdown files to Articles.'
+    help = 'Imports or updates Markdown articles with YAML frontmatter into Django.'
 
     def handle(self, *args, **kwargs):
         content_dir = os.path.join('content', 'articles')
 
+        # Check for ".../content/articles/" directory
         if not os.path.exists(content_dir):
             self.stdout.write(self.style.ERROR(f"Directory {content_dir} does not exist."))
             return
 
+        # Track processed slugs to handle deletions later
+        processed_slugs = set()
+
         for filename in os.listdir(content_dir):
             if filename.endswith('.md'):
                 file_path = os.path.join(content_dir, filename)
+
+                # Frontmatter loading
+                post = frontmatter.load(file_path)
+                raw_content = post.content
+                metadata = post.metadata
                 
-                slug = os.path.splitext(filename)[0]
-                title = slug.replace('-', ' ').title()
-                file_stat = os.stat(file_path)
-                file_date = datetime.datetime.fromtimestamp(file_stat.st_mtime, tz=ZoneInfo("Europe/Rome"))
+                # Get the metadata
+                title = metadata.get("title")
+                slug = slugify(title)
+                language = metadata.get("language", "en")
+
+                # Keep track of this slug as active
+                processed_slugs.add(slug)
+
+                # HTML content from markdown
+                html_content = markdown.markdown(raw_content)
+
+                # Create hash for version control
+                with open(file_path, 'rb') as f:
+                    file_bytes = f.read()
+                file_hash = hashlib.md5(file_bytes).hexdigest()
                 
-                with open(file_path, 'r', encoding='utf-8') as file:
-                    raw_markdown = file.read()
-                
-                file_hash = hashlib.md5(raw_markdown.encode('utf-8')).hexdigest()
-                
-                # Check if the article already exists in the database
+                # Check if the article already exists in the database by slug
+                # As the slug is derived from the title, if the title changes, the article will be considered a new one
                 try:
                     article = Article.objects.get(slug=slug)
                     
@@ -36,11 +53,11 @@ class Command(BaseCommand):
                         self.stdout.write(self.style.NOTICE(f"Skipped (unchanged): {title}"))
                         continue
                         
-                    # If it changed, convert markdown and update
-                    html_content = markdown.markdown(raw_markdown)
+                    # If it has changed, update it
                     article.title = title
+                    article.language = language
                     article.content = html_content
-                    article.mod_date = file_date
+                    article.mod_date = timezone.now()
                     article.file_hash = file_hash
                     article.save()
                     
@@ -48,14 +65,17 @@ class Command(BaseCommand):
 
                 except Article.DoesNotExist:
                     # If it's a brand new file, create it
-                    pub_date = file_date
-                    html_content = markdown.markdown(raw_markdown)
-                    
                     Article.objects.create(
-                        slug=slug,
                         title=title,
+                        slug=slug,
+                        language=language,
                         content=html_content,
-                        pub_date=pub_date,
+                        pub_date=timezone.now(),
                         file_hash=file_hash
                     )
                     self.stdout.write(self.style.SUCCESS(f"Created: {title}"))
+                
+        # Find and delete any articles in the DB whose slugs are no longer in the markdown folder
+        deleted_count, _ = Article.objects.exclude(slug__in=processed_slugs).delete()
+        if deleted_count > 0:
+            self.stdout.write(self.style.WARNING(f"Deleted {deleted_count} articles whose markdown files were removed."))
