@@ -10,7 +10,7 @@ class IndexView(ListView):
     ordering = ["-pub_date"]
 
     def get_queryset(self):
-        # Start with the base queryset (e.g., all articles ordered by latest)
+        # Start with the base queryset (all articles ordered by latest)
         queryset = super().get_queryset()
         
         # Get the search query from the URL GET parameters
@@ -21,8 +21,11 @@ class IndexView(ListView):
             queryset = queryset.filter(
                 Q(title__icontains=self.query) | Q(content__icontains=self.query)
             )
+        else:
+            # If no query, limits to the latest 5 articles
+            queryset = queryset[:5]
             
-        return queryset[:5]
+        return queryset
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

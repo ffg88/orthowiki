@@ -23,7 +23,7 @@
         {% for article in articles_list %}
             <li>
                 <a href="{% url 'orthowiki:article' article.slug %}">{{ article.title }}</a>
-                <p>{{ article.content|safe|truncatewords:30 }}</p>
+                <p>{{ article.content|striptags|truncatewords:30 }}</p>
                 <small>Published on: {{ article.pub_date }}</small>
             </li>
         {% endfor %}

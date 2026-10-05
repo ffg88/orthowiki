@@ -9,7 +9,7 @@ class Article(models.Model):
     content = models.TextField()
     pub_date = models.DateTimeField(verbose_name="date published")
     mod_date = models.DateTimeField(verbose_name="last modified", blank=True, null=True)
-    file_hash = models.CharField(max_length=32, unique=True)
+    file_hash = models.CharField(max_length=32)
 
     def save(self, *args, **kwargs):
             if not self.slug:
