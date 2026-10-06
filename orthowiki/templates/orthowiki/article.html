@@ -12,9 +12,9 @@
     {% if article.mod_date != article.pub_date %}
         | {{ t.modified_on }}: 
         {% if current_lang == 'pt' %}
-            {{ article.pub_date|date:"d/m/Y \à\s H:i" }}
+            {{ article.mod_date|date:"d/m/Y \à\s H:i" }}
         {% else %}
-            {{ article.pub_date|date:"M j, Y, g:i a" }}
+            {{ article.mod_date|date:"M j, Y, g:i a" }}
         {% endif %}
     {% endif %}
 </small>

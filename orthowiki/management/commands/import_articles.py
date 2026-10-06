@@ -47,7 +47,10 @@ class Command(BaseCommand):
             processed_slugs.add(slug)
 
             # HTML content from markdown
-            html_content = markdown.markdown(raw_content)
+            html_content = markdown.markdown(
+                raw_content,
+                extensions=["tables"]
+            )
 
             # Check if the article already exists in the database by slug
             # As the slug is derived from the title, if the title changes, the article will be considered a new one
