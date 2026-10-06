@@ -39,6 +39,7 @@ class Command(BaseCommand):
                 # As the title is used for slug, skips files with no titles
                 self.stdout.write(self.style.WARNING(f"Skipping {file_path.name}: Missing 'title' in metadata."))
                 continue
+            author = metadata.get("author")
             slug = slugify(title)
             language = metadata.get("language", "en")
 
@@ -60,6 +61,7 @@ class Command(BaseCommand):
                         
                 # If it has changed, update the corresponding article
                 article.title = title
+                article.author = author
                 article.language = language
                 article.content = html_content
                 article.mod_date = timezone.now()
@@ -70,12 +72,16 @@ class Command(BaseCommand):
 
             except Article.DoesNotExist:
                 # If it's a new file, create a new article
+                current_time = timezone.now() # Get the timestamp once to ensure they are identical
+
                 Article.objects.create(
                     title=title,
+                    author=author,
                     slug=slug,
                     language=language,
                     content=html_content,
-                    pub_date=timezone.now(),
+                    pub_date=current_time,
+                    mod_date=current_time,
                     file_hash=file_hash
                 )
                 self.stdout.write(self.style.SUCCESS(f"Created: {title}"))

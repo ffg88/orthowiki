@@ -4,7 +4,7 @@
 <h1>{{ article.title}} </h1>
 <small>
     Published on: {{ article.pub_date }}
-    {% if article.mod_date %}
+    {% if article.mod_date != article.pub_date %}
         | Modified on: {{ article.mod_date }}
     {% endif %}
 </small>

@@ -4,11 +4,12 @@ from django.utils.text import slugify
 
 class Article(models.Model):
     title = models.CharField(max_length=200)
+    author = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     language = models.CharField(max_length=10, default="en")
     content = models.TextField()
     pub_date = models.DateTimeField(verbose_name="date published")
-    mod_date = models.DateTimeField(verbose_name="last modified", blank=True, null=True)
+    mod_date = models.DateTimeField(verbose_name="last modified")
     file_hash = models.CharField(max_length=32)
 
     def save(self, *args, **kwargs):

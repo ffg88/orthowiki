@@ -7,7 +7,7 @@ class IndexView(ListView):
     model = Article
     template_name = "orthowiki/index.html"
     context_object_name = "articles_list"
-    ordering = ["-pub_date"]
+    ordering = ["-mod_date"]
 
     def get_queryset(self):
         # Start with the base queryset (all articles ordered by latest)
