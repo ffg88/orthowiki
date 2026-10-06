@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 # As the title is used for slug, skips files with no titles
                 self.stdout.write(self.style.WARNING(f"Skipping {file_path.name}: Missing 'title' in metadata."))
                 continue
-            author = metadata.get("author")
+            author = metadata.get("author", "John Doe")
             slug = slugify(title)
             language = metadata.get("language", "en")
 
