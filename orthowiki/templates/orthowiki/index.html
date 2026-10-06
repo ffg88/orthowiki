@@ -1,20 +1,27 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'orthowiki/style.css' %}">
 
+<!-- Language Switcher -->
+    <div class="language-switcher">
+        <a href="{% url 'orthowiki:index' lang_code='en' %}">English</a> | 
+        <a href="{% url 'orthowiki:index' lang_code='pt' %}">Português</a>
+    </div>
+<br>
+
 <!-- Search Form -->
-    <form method="GET" action="{% url 'orthowiki:index' %}">
-        <input type="text" name="q" value="{{ query }}" placeholder="Search articles...">
-        <button type="submit">Search</button>
+    <form method="GET" action="{% url 'orthowiki:index' lang_code=current_lang %}">
+        <input type="text" name="q" value="{{ query }}" placeholder="{{ t.placeholder }}">
+        <button type="submit">{{ t.search_btn }}</button>
         {% if query %}
-            <a href="{% url 'orthowiki:index' %}">Clear Search</a>
+            <a href="{% url 'orthowiki:index' lang_code=current_lang %}">{{ t.clear_search }}</a>
         {% endif %}
     </form>
 
 <!-- Dynamic Heading -->
     {% if query %}
-        <h2>Search Results for "{{ query }}"</h2>
+        <h2>{{ t.search_results }} "{{ query }}"</h2>
     {% else %}
-        <h2>Latest Articles</h2>
+        <h2>{{ t.latest_title }}</h2>
     {% endif %}
 
 <!-- Article List -->
@@ -22,11 +29,11 @@
         <ul>
         {% for article in articles_list %}
             <li>
-                <a href="{% url 'orthowiki:article' article.slug %}">{{ article.title }}</a>
+                <a href="{% url 'orthowiki:article' lang_code=article.language slug=article.slug %}">{{ article.title }}</a>
                 <p>{{ article.content|striptags|truncatewords:30 }}</p>
             </li>
         {% endfor %}
         </ul>
     {% else %}
-        <p>No articles are available at the moment.</p>
+        <p>{{ t.no_articles }}</p>
     {% endif %}

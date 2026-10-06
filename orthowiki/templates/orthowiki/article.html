@@ -3,9 +3,19 @@
 
 <h1>{{ article.title}} </h1>
 <small>
-    Published on: {{ article.pub_date }}
+    {{ t.published_on }}: 
+        {% if current_lang == 'pt' %}
+            {{ article.pub_date|date:"d/m/Y \à\s H:i" }}
+        {% else %}
+            {{ article.pub_date|date:"M j, Y, g:i a" }}
+        {% endif %}
     {% if article.mod_date != article.pub_date %}
-        | Modified on: {{ article.mod_date }}
+        | {{ t.modified_on }}: 
+        {% if current_lang == 'pt' %}
+            {{ article.pub_date|date:"d/m/Y \à\s H:i" }}
+        {% else %}
+            {{ article.pub_date|date:"M j, Y, g:i a" }}
+        {% endif %}
     {% endif %}
 </small>
 <br>
