@@ -1,12 +1,13 @@
-{% load static %}
-<link rel="stylesheet" href="{% static 'orthowiki/style.css' %}">
+{% extends 'orthowiki/base.html' %}
 
+{% block title %}OrthoWiki{% endblock %}
+
+{% block content %}
 <!-- Language Switcher -->
     <div class="language-switcher">
         <a href="{% url 'orthowiki:index' lang_code='en' %}">English</a> | 
         <a href="{% url 'orthowiki:index' lang_code='pt' %}">Português</a>
     </div>
-<br>
 
 <!-- Search Form -->
     <form method="GET" action="{% url 'orthowiki:index' lang_code=current_lang %}">
@@ -37,3 +38,4 @@
     {% else %}
         <p>{{ t.no_articles }}</p>
     {% endif %}
+{% endblock %}

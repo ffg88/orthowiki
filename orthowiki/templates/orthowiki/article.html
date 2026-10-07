@@ -1,7 +1,9 @@
-{% load static %}
-<link rel="stylesheet" href="{% static 'orthowiki/style.css' %}">
+{% extends 'orthowiki/base.html' %}
 
-<h1>{{ article.title}} </h1>
+{% block title %}OrthoWiki | {{ article.title}}{% endblock %}
+
+{% block content %}
+<h1>{{ article.title}}</h1>
 <small>
     {{ t.published_on }}: 
         {% if current_lang == 'pt' %}
@@ -20,3 +22,4 @@
 </small>
 <br>
 {{ article.content|safe }}
+{% endblock %}
