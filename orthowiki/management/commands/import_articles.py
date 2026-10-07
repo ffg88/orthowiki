@@ -89,7 +89,20 @@ class Command(BaseCommand):
                 )
                 self.stdout.write(self.style.SUCCESS(f"Created: {title}"))
                 
-        # Find and delete any articles in the DB whose slugs are no longer in the markdown folder
-        deleted_count, _ = Article.objects.exclude(slug__in=processed_slugs).delete()
-        if deleted_count > 0:
-            self.stdout.write(self.style.WARNING(f"Deleted {deleted_count} articles whose markdown files were removed."))
+        # Find and list articles for deletion - whose DB slugs are no longer in the markdown folder
+        articles_to_delete = Article.objects.exclude(slug__in=processed_slugs)
+        delete_count = articles_to_delete.count()
+
+        if delete_count > 0:
+            self.stdout.write(self.style.WARNING(f"\nFound {delete_count} article(s) whose markdown files were removed:"))
+            for article in articles_to_delete:
+                self.stdout.write(f"  - {article.title} (slug: {article.slug})")
+
+            # Prompt the user for confirmation
+            confirm = input("\nDo you want to delete these articles from the database? [y/N]: ").strip().lower()
+
+            if confirm in ['y', 'yes']:
+                articles_to_delete.delete()
+                self.stdout.write(self.style.SUCCESS(f"Successfully deleted {delete_count} articles."))
+            else:
+                self.stdout.write(self.style.NOTICE("Deletion aborted. No articles were removed."))
