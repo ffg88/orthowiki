@@ -3,39 +3,43 @@
 {% block title %}OrthoWiki{% endblock %}
 
 {% block content %}
-<!-- Language Switcher -->
-    <div class="language-switcher">
-        <a href="{% url 'orthowiki:index' lang_code='en' %}">English</a> | 
-        <a href="{% url 'orthowiki:index' lang_code='pt' %}">Português</a>
-    </div>
-
 <!-- Search Form -->
-    <form method="GET" action="{% url 'orthowiki:index' lang_code=current_lang %}">
-        <input type="text" name="q" value="{{ query }}" placeholder="{{ t.placeholder }}">
-        <button type="submit">{{ t.search_btn }}</button>
+<div class="container d-flex flex-column align-items-center justify-content-center">
+    <form method="GET" action="{% url 'orthowiki:index' lang_code=current_lang %}" class="d-flex flex-column align-items-center">
+        <label for="search" class="form-label text-center">{{ t.question_search }}</label>
+        <input type="text" id="search" name="q" value="{{ query }}" placeholder="{{ t.placeholder_search }}" class="form-control">
         {% if query %}
-            <a href="{% url 'orthowiki:index' lang_code=current_lang %}">{{ t.clear_search }}</a>
+            <a class="btn btn-sm btn-secondary rounded-pill w-auto mt-3" href="{% url 'orthowiki:index' lang_code=current_lang %}">{{ t.clear_search }}</a>
         {% endif %}
     </form>
+</div>
 
 <!-- Dynamic Heading -->
+<div class="container d-flex flex-column align-items-center justify-content-center mt-5">
+    <span class="fs-3 fw-light text-uppercase">
     {% if query %}
-        <h2>{{ t.search_results }} "{{ query }}"</h2>
+        {{ t.search_results }} "{{ query }}"
     {% else %}
-        <h2>{{ t.latest_title }}</h2>
+        {{ t.latest_title }}
     {% endif %}
+    </span>
+</div>
 
 <!-- Article List -->
     {% if articles_list %}
-        <ul>
+        <hr class="border border-secondary opacity-25 w-100">
         {% for article in articles_list %}
-            <li>
-                <a href="{% url 'orthowiki:article' lang_code=article.language slug=article.slug %}">{{ article.title }}</a>
-                <p>{{ article.content|striptags|truncatewords:30 }}</p>
-            </li>
+            <div class="card border-0 w-100">
+                <div class="card-body px-0">
+                    <a href="{% url 'orthowiki:article' lang_code=article.language slug=article.slug %}" class="link-dark link-opacity-50-hover fs-3 fw-bold text-decoration-none">{{ article.title }}</a>
+                    <p class="card-text mt-2">{{ article.content|striptags|truncatewords:50 }}</p>
+                    <a href="{% url 'orthowiki:article' lang_code=article.language slug=article.slug %}" class="btn btn-sm btn-outline-secondary rounded-pill">{{ t.read_more }}</a>
+                </div>
+            </div>
+            <hr class="border border-secondary opacity-25 w-100">
         {% endfor %}
-        </ul>
     {% else %}
         <p>{{ t.no_articles }}</p>
     {% endif %}
+
 {% endblock %}

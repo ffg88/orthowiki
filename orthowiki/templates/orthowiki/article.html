@@ -3,23 +3,31 @@
 {% block title %}OrthoWiki | {{ article.title}}{% endblock %}
 
 {% block content %}
-<h1>{{ article.title}}</h1>
-<small>
-    {{ t.published_on }}: 
+
+<div class="container d-flex flex-column align-items-start">
+    <a href="{% url 'orthowiki:index' lang_code=article.language %}" class="btn btn-sm btn-outline-secondary rounded-pill w-auto mb-3">{{ t.return }}</a>
+    <span class="h2">
+        {{ article.title}}
+    </span>
+    <span class="fs-6 fw-light px-3 mb-5 border-start">
+        {{ t.published_on }}: 
         {% if current_lang == 'pt' %}
             {{ article.pub_date|date:"d/m/Y \à\s H:i" }}
         {% else %}
             {{ article.pub_date|date:"M j, Y, g:i a" }}
         {% endif %}
-    {% if article.mod_date != article.pub_date %}
-        | {{ t.modified_on }}: 
-        {% if current_lang == 'pt' %}
-            {{ article.mod_date|date:"d/m/Y \à\s H:i" }}
-        {% else %}
-            {{ article.mod_date|date:"M j, Y, g:i a" }}
+        {% if article.mod_date != article.pub_date %}
+            <br>{{ t.modified_on }}: 
+            {% if current_lang == 'pt' %}
+                {{ article.mod_date|date:"d/m/Y \à\s H:i" }}
+            {% else %}
+                {{ article.mod_date|date:"M j, Y, g:i a" }}
+            {% endif %}
         {% endif %}
-    {% endif %}
-</small>
-<br>
-{{ article.content|safe }}
+    </span>
+    <span>
+        {{ article.content|safe }}
+    </span>
+</div>
+
 {% endblock %}
