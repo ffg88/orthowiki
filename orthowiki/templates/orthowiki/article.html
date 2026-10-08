@@ -5,7 +5,6 @@
 {% block content %}
 
 <div class="container d-flex flex-column align-items-start">
-    <a href="{% url 'orthowiki:index' lang_code=article.language %}" class="btn btn-sm btn-outline-secondary rounded-pill w-auto mb-3">{{ t.return }}</a>
     <span class="h2">
         {{ article.title}}
     </span>
@@ -28,6 +27,7 @@
     <span>
         {{ article.content|safe }}
     </span>
+    <a href="{% url 'orthowiki:index' lang_code=article.language %}" class="btn btn-sm btn-outline-secondary rounded-pill w-auto mt-3">{{ t.return }}</a>
 </div>
 
 {% endblock %}
