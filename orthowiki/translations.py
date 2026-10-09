@@ -16,7 +16,11 @@ translations = {
         "read_more": "Read more →",
         "published_on": "Published on",
         "modified_on": "Modified on",
-        "return": "← Return"
+        "return": "← Return",
+        "next": "Next →",
+        "previous": "← Previous",
+        "page": "Page",
+        "of": "of"
     },
     "pt": {
         "question_search": "Qual a sua dúvida?",
@@ -33,7 +37,11 @@ translations = {
         "read_more": "Leia mais →",
         "published_on": "Publicado em",
         "modified_on": "Modificado em",
-        "return": "← Voltar"
+        "return": "← Voltar",
+        "next": "Próxima →",
+        "previous": "← Anterior",
+        "page": "Página",
+        "of": "de"
     }
 }
 

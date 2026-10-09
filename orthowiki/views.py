@@ -9,6 +9,10 @@ class IndexView(ListView):
     template_name = "orthowiki/index.html"
     context_object_name = "articles_list"
     ordering = ["-mod_date"]
+    paginate_by = 5
+
+    def get_paginate_by(self, queryset):
+        return self.paginate_by if self.request.GET.get("q", "") else None
 
     def get_queryset(self):
         # Get language code from URL kwargs (defaulting to 'en' as a fallback)
@@ -26,8 +30,8 @@ class IndexView(ListView):
                 Q(title__icontains=self.query) | Q(content__icontains=self.query)
             )
         else:
-            # If no query, limits to the latest 5 articles
-            queryset = queryset[:5]
+            # If no query, limits to the latest articles
+            queryset = queryset[:self.paginate_by]
             
         return queryset
     

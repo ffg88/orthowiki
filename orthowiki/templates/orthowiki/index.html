@@ -26,20 +26,39 @@
 </div>
 
 <!-- Article List -->
-    {% if articles_list %}
-        <hr class="border border-secondary opacity-25 w-100">
-        {% for article in articles_list %}
-            <div class="card border-0 w-100">
-                <div class="card-body px-0">
-                    <a href="{% url 'orthowiki:article' lang_code=article.language slug=article.slug %}" class="link-dark link-opacity-50-hover fs-3 fw-bold text-decoration-none">{{ article.title }}</a>
-                    <p class="card-text mt-2">{{ article.content|striptags|truncatewords:50 }}</p>
-                    <a href="{% url 'orthowiki:article' lang_code=article.language slug=article.slug %}" class="btn btn-sm btn-outline-secondary rounded-pill">{{ t.read_more }}</a>
-                </div>
+{% if articles_list %}
+    <hr class="border border-secondary opacity-25 w-100">
+    {% for article in articles_list %}
+        <div class="card border-0 w-100">
+            <div class="card-body px-0">
+                <a href="{% url 'orthowiki:article' lang_code=article.language slug=article.slug %}" class="link-dark link-opacity-50-hover fs-3 fw-bold text-decoration-none">{{ article.title }}</a>
+                <p class="card-text mt-2">{{ article.content|striptags|truncatewords:50 }}</p>
+                <a href="{% url 'orthowiki:article' lang_code=article.language slug=article.slug %}" class="btn btn-sm btn-outline-secondary rounded-pill">{{ t.read_more }}</a>
             </div>
-            <hr class="border border-secondary opacity-25 w-100">
-        {% endfor %}
-    {% else %}
-        <p>{{ t.no_articles }}</p>
-    {% endif %}
+        </div>
+        <hr class="border border-secondary opacity-25 w-100">
+    {% endfor %}
+{% else %}
+    <p>{{ t.no_articles }}</p>
+{% endif %}
+
+<!-- Pagination -->
+{% if is_paginated %}
+    <nav class="d-flex justify-content-between align-items-center w-100 mt-3">
+        {% if page_obj.has_previous %}
+            <a href="?q={{ query|urlencode }}&page={{ page_obj.previous_page_number }}" class="btn btn-sm btn-outline-secondary rounded-pill">{{ t.previous }}</a>
+        {% else %}
+            <span></span>
+        {% endif %}
+
+        <span>{{ t.page }} {{ page_obj.number }} {{ t.of }} {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?q={{ query|urlencode }}&page={{ page_obj.next_page_number }}" class="btn btn-sm btn-outline-secondary rounded-pill">{{ t.next }}</a>
+        {% else %}
+            <span></span>
+        {% endif %}
+    </nav>
+{% endif %}
 
 {% endblock %}
