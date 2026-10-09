@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from django.db.models import Q
 from .models import Article
 from .translations import get_translations
@@ -55,6 +55,32 @@ class ArticleView(DetailView):
         # Ensure the article belongs to the language specified in the URL
         lang_code = self.kwargs.get("lang_code", "en")
         return super().get_queryset().filter(language=lang_code)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        lang_code = self.kwargs.get("lang_code", "en")
+
+        # Pass the language to the template
+        context["current_lang"] = lang_code
+        context["t"] = get_translations(lang_code)
+        return context
+
+
+class AboutView(TemplateView):
+    template_name = "orthowiki/about.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        lang_code = self.kwargs.get("lang_code", "en")
+
+        # Pass the language to the template
+        context["current_lang"] = lang_code
+        context["t"] = get_translations(lang_code)
+        return context
+
+
+class ContactView(TemplateView):
+    template_name = "orthowiki/contact.html"
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

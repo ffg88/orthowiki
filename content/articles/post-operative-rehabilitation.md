@@ -4,4 +4,4 @@ language: "en"
 author: "Dr. Smith"
 ---
 
-*Physiotherapy* is important.
+*Physiotherapy* is important. 

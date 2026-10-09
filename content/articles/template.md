@@ -16,8 +16,6 @@ Emphasis can be used by *italic* or _italic_. Strong emphasis by **bold** or __b
 
 > Blockquotes can be made this way.
 
-`And code blocks this way.`
-
 Unordered (bullet) lists can be made by *, + or -, like this:
 
 - Item 1

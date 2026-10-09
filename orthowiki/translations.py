@@ -11,8 +11,6 @@ translations = {
         "no_articles": "No articles are available at the moment.",
         "top_message": "Welcome to OrthoWiki, where people can understand common orthopedic concepts.",
         "bottom_message": "No rights reserved.",
-        "menu_about": "About",
-        "menu_contact": "Contact",
         "read_more": "Read more →",
         "published_on": "Published on",
         "modified_on": "Modified on",
@@ -20,7 +18,9 @@ translations = {
         "next": "Next →",
         "previous": "← Previous",
         "page": "Page",
-        "of": "of"
+        "of": "of",
+        "about": "About",
+        "contact": "Contact"
     },
     "pt": {
         "question_search": "Qual a sua dúvida?",
@@ -32,8 +32,6 @@ translations = {
         "no_articles": "Nenhum artigo disponível no momento.",
         "top_message": "Bem-vindo a OrthoWiki, onde pessoas podem compreender conceitos comuns em ortopedia.",
         "bottom_message": "Nenhum direito reservado.",
-        "menu_about": "Sobre",
-        "menu_contact": "Contato",
         "read_more": "Leia mais →",
         "published_on": "Publicado em",
         "modified_on": "Modificado em",
@@ -41,7 +39,9 @@ translations = {
         "next": "Próxima →",
         "previous": "← Anterior",
         "page": "Página",
-        "of": "de"
+        "of": "de",
+        "about": "Sobre",
+        "contact": "Contato"
     }
 }
 
