@@ -1,7 +1,17 @@
 from django.views.generic import ListView, DetailView, TemplateView
 from django.db.models import Q
+from django.shortcuts import redirect
 from .models import Article
 from .translations import get_translations
+
+def root_redirect(request):
+    accept_language = request.META.get('HTTP_ACCEPT_LANGUAGE', '').lower()
+    if 'pt' in accept_language:
+        lang_code = 'pt'
+    else:
+        lang_code = 'en'
+    
+    return redirect('orthowiki:index', lang_code=lang_code)
 
 
 class IndexView(ListView):

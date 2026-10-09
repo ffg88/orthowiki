@@ -1,1 +1,0 @@
-Test file for no metadata. Should be ignored because it has no title.
