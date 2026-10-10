@@ -109,7 +109,7 @@ class ContactView(FormView):
         return context
     
     def form_valid(self, form):
-        # Salva no banco em vez de enviar email
+        # Saves message to database
         ContactSubmission.objects.create(
             name=form.cleaned_data["name"],
             email=form.cleaned_data["email"],

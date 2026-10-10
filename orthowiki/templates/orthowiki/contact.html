@@ -44,6 +44,8 @@
                 <div class="invalid-feedback d-block">{{ form.message.errors }}</div>
             {% endif %}
         </div>
+
+        <input type="text" name="honeypot" style="display:none;" autocomplete="off">
         
         <button type="submit" class="btn btn-sm btn-secondary rounded-pill w-auto">{{ t.send }}</button>
     </form>

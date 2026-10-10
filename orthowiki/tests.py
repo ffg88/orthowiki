@@ -1,7 +1,7 @@
 import hashlib
 from datetime import timedelta
 
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.utils import timezone
 from django.db import IntegrityError, transaction
 from django.urls import reverse
@@ -208,3 +208,34 @@ class ArticleViewTests(TestCase):
 		)
 
         self.assertEqual(response.status_code, 404)
+
+
+class ContactFormTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+    
+    def test_honeypot_rejects_filled_field(self):
+        '''
+        Verify that a filled honeypot field fails to redirect.
+        '''
+        response = self.client.post(reverse("orthowiki:contact", kwargs={"lang_code": "en"}), {
+            "name": "Test",
+            "email": "test@test.com",
+            "subject": "Test",
+            "message": "Hello",
+            "honeypot": "filled"
+        })
+        self.assertEqual(response.status_code, 200)
+    
+    def test_honeypot_accepts_empty_field(self):
+        '''
+        Verify that an empty honeypot field successufully redirects.
+        '''
+        response = self.client.post(reverse("orthowiki:contact", kwargs={"lang_code": "en"}), {
+            "name": "Test",
+            "email": "test@test.com",
+            "subject": "Test",
+            "message": "Hello",
+            "honeypot": ""
+        })
+        self.assertEqual(response.status_code, 302)

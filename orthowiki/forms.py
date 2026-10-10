@@ -28,3 +28,10 @@ class ContactForm(forms.Form):
             'required': True
         })
     )
+    honeypot = forms.CharField(required=False, widget=forms.HiddenInput)
+    
+    def clean_honeypot(self):
+        value = self.cleaned_data['honeypot']
+        if value:
+            raise forms.ValidationError("Spam detected!")
+        return value
