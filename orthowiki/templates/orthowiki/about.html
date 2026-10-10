@@ -5,9 +5,26 @@
 {% block content %}
 
 <div class="container d-flex flex-column align-items-start">
-    <h2>
+    <h2 class="mb-3">
         {{ t.about }}
     </h2>
+    {% if current_lang == 'pt' %}
+        <p>Este site é destinado <strong>apenas a propósitos educacionais e não fornece conselhos médicos</strong>. O conteúdo é fornecido "como está", sem garantias de qualquer tipo. Eu não me responsabilizo por ações tomadas baseadas nessas informações.</p>
+        <p><strong>Tratamento médico é um assunto muito sério e deve ser prestado por profissionais qualificados</strong>. Os artigos postados são informativos e têm como objetivo ajudar pessoas sem experiência na área médica a entender termos comuns usados na prática ortopédica.</p>
+        <p>O site nasceu de um projeto pessoal que objetiva aprender desenvolvimento web. Em determinado momento, uma aplicação prática foi imaginada para aplicar os conhecimentos profissionais do autor.</p>
+        <p>Eu reforço que <strong>todas as decisões médicas devem ser tomadas guiadas por um médico de confiança</strong>. Caso alguma diferença apareça entre as informações apresentadas aqui e o tratamento proposto por um profissional, siga as orientações deste. Caso tenha dúvidas sobre as informações apresentadas por qualquer médico, é sempre possível procurar uma segunda opinião de outro profissional qualificado.</p>
+        <p>Este projeto é open-source e o seu código pode ser visualizado no GitHub: <a class="link-dark" href="#">OrthoWiki</a>.</p>
+        <p>Caso perceba algum erro ou possua correções a sugerir, fique à vontade para me contatar via uma issue no GitHub ou através da <a class="link-dark" href="{% url 'orthowiki:contact' lang_code=current_lang %}">página de contato</a>.</p>
+        <p>Nenhum médico residente foi explorado ou maltratado durante o desenvolvimento deste site.</p>
+    {% else %}
+        <p>This website is for <strong>educational purposes only and does not provide medical advice</strong>. The content is provided "as is" without warranties of any kind. I am not responsible for any actions taken based on this information.</p>
+        <p><strong>Medical treatment is a very serious matter and should be performed by qualified professionals</strong>. The articles posted are only informative and aim to help people who have no experience in the medical field to better understand common terms used in orthopedic care.</p>
+        <p>This website was born as a personal project aimed at learning web development. At some point, a practical application was imagined in order to apply the author's professional knowledge.</p>
+        <p>I reiterate that <strong>all medical decisions should be taken with the guidance of a trusted doctor</strong>. Should any differences to the information presented here arise in a treatment proposed by a professional, follow his/her guidance. Should you have doubts about the information presented by any doctor, it is always possible to seek the opinion of other qualified professionals.</p>
+        <p>This is an open-source project and the source code can be inspected on GitHub: <a class="link-dark" href="#">OrthoWiki</a>.</p>
+        <p>Should you spot errors or have corrections, feel free to contact me through a GitHub issue or at the <a class="link-dark" href="{% url 'orthowiki:contact' lang_code=current_lang %}">contact page</a>.</p>
+        <p>No medical residents were exploited or harmed while developing this website.</p>
+    {% endif %}
 </div>
 
 {% endblock %}

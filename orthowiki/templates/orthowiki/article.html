@@ -24,7 +24,7 @@
             {% endif %}
         {% endif %}
     </span>
-    <span>
+    <span id="orthowiki-article">
         {{ article.content|safe }}
     </span>
     <a href="{% url 'orthowiki:index' lang_code=article.language %}" class="btn btn-sm btn-outline-secondary rounded-pill w-auto mt-3">{{ t.return }}</a>
