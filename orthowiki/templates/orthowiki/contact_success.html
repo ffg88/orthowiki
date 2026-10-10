@@ -1,0 +1,15 @@
+{% extends 'orthowiki/base.html' %}
+
+{% block title %}OrthoWiki | {{ t.contact }}{% endblock %}
+
+{% block content %}
+
+<div class="container d-flex flex-column align-items-start">
+    <h2 class="mb-3">
+        {{ t.contact }}
+    </h2>
+    <p>{{ t.contact_success }}</p>
+    <a href="{% url 'orthowiki:contact' lang_code=current_lang %}" class="btn btn-sm btn-outline-secondary rounded-pill w-auto mt-3">{{ t.return }}</a>
+</div>
+
+{% endblock %}

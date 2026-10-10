@@ -5,9 +5,48 @@
 {% block content %}
 
 <div class="container d-flex flex-column align-items-start">
-    <h2>
+    <h2 class="mb-3">
         {{ t.contact }}
     </h2>
+    <p>{{ t.contact_text }}</p>
+    
+    <form method="post">
+    {% csrf_token %}
+    
+        <div class="mb-3">
+            <span>{{ t.name }}</span>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="invalid-feedback d-block">{{ form.name.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            <span>{{ t.email }}</span>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div class="invalid-feedback d-block">{{ form.email.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            <span>{{ t.subject }}</span>
+            {{ form.subject }}
+            {% if form.subject.errors %}
+                <div class="invalid-feedback d-block">{{ form.subject.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="mb-3">
+            <span>{{ t.message }}</span>
+            {{ form.message }}
+            {% if form.message.errors %}
+                <div class="invalid-feedback d-block">{{ form.message.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="btn btn-sm btn-secondary rounded-pill w-auto">{{ t.send }}</button>
+    </form>
 </div>
 
 {% endblock %}

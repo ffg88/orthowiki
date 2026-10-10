@@ -1,7 +1,9 @@
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView, TemplateView, FormView
 from django.db.models import Q
 from django.shortcuts import redirect
-from .models import Article
+from django.urls import reverse
+from .models import Article, ContactSubmission
+from .forms import ContactForm
 from .translations import get_translations
 
 def root_redirect(request):
@@ -89,9 +91,38 @@ class AboutView(TemplateView):
         return context
 
 
-class ContactView(TemplateView):
+class ContactView(FormView):
     template_name = "orthowiki/contact.html"
+    form_class = ContactForm
+
+    def get_success_url(self):
+        lang_code = self.kwargs.get('lang_code')
+        return reverse('orthowiki:contact_success', kwargs={'lang_code': lang_code})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        lang_code = self.kwargs.get("lang_code", "en")
+
+        # Pass the language to the template
+        context["current_lang"] = lang_code
+        context["t"] = get_translations(lang_code)
+        return context
     
+    def form_valid(self, form):
+        # Salva no banco em vez de enviar email
+        ContactSubmission.objects.create(
+            name=form.cleaned_data["name"],
+            email=form.cleaned_data["email"],
+            subject=form.cleaned_data["subject"],
+            message=form.cleaned_data["message"],
+        )
+        
+        return super().form_valid(form)
+
+
+class ContactSuccessView(TemplateView):
+    template_name = "orthowiki/contact_success.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         lang_code = self.kwargs.get("lang_code", "en")

@@ -19,8 +19,16 @@ translations = {
         "previous": "← Previous",
         "page": "Page",
         "of": "of",
+        "home": "Home",
         "about": "About",
-        "contact": "Contact"
+        "contact": "Contact",
+        "contact_text": "Use the form below to contact us.",
+        "name": "Name:",
+        "email": "Email:",
+        "subject": "Subject:",
+        "message": "Message:",
+        "send": "Send message",
+        "contact_success": "Your message was sent successfully."
     },
     "pt": {
         "question_search": "Qual a sua dúvida?",
@@ -40,8 +48,16 @@ translations = {
         "previous": "← Anterior",
         "page": "Página",
         "of": "de",
+        "home": "Início",
         "about": "Sobre",
-        "contact": "Contato"
+        "contact": "Contato",
+        "contact_text": "Use o formulário abaixo para entrar em contato.",
+        "name": "Nome:",
+        "email": "Email:",
+        "subject": "Assunto:",
+        "message": "Mensagem:",
+        "send": "Enviar mensagem",
+        "contact_success": "Sua mensagem foi enviada com sucesso."
     }
 }
 

@@ -17,6 +17,10 @@
                 <span class="navbar-text">{{ t.top_message }}</span>
                 <ul class="navbar-nav flex-row gap-2">
                     <li class="nav-item">
+                        <a class="nav-link fw-bold" href="{% url 'orthowiki:index' lang_code=current_lang %}">{{ t.home }}</a>
+                    </li>
+                    <li class="nav-text d-flex align-items-center">|</li>
+                    <li class="nav-item">
                         <a class="nav-link fw-bold" href="{% url 'orthowiki:about' lang_code=current_lang %}">{{ t.about }}</a>
                     </li>
                     <li class="nav-text d-flex align-items-center">|</li>
