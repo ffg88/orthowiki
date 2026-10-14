@@ -6,6 +6,7 @@ from django.utils.text import slugify
 from django.utils import timezone
 from orthowiki.models import Article
 
+
 class Command(BaseCommand):
     help = 'Imports or updates Markdown articles with YAML frontmatter into Django.'
 

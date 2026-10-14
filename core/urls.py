@@ -18,6 +18,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('orthowiki/', include('orthowiki.urls')),
+    path('', include('orthowiki.urls')),
     path('admin/', admin.site.urls),
 ]
